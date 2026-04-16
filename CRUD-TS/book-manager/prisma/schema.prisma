@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Book {
+  id            Int      @id @default(autoincrement())
+  title         String   @db.VarChar(200)
+  author        String   @db.VarChar(100)
+  publisher     String?  @db.VarChar(100)
+  publishedDate String?  @map("published_date") @db.VarChar(10)
+  isbn          String?  @db.VarChar(13)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("books")
+}

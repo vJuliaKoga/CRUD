@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>書籍管理システム</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>書籍管理システム</h1>
+
+      <div id="message" class="message"></div>
+
+      <div class="form-section">
+        <h2 id="form-title">書籍を登録する</h2>
+        <input type="hidden" id="edit-id" />
+        <div class="form-row">
+          <input type="text" id="title" placeholder="タイトル（必須）" />
+          <input type="text" id="author" placeholder="著者（必須）" />
+        </div>
+        <div class="form-row">
+          <input type="text" id="publisher" placeholder="出版社" />
+          <input type="text" id="publishedDate" placeholder="出版日（YYYY-MM-DD）" />
+          <input type="text" id="isbn" placeholder="ISBN" />
+        </div>
+        <div class="form-row">
+          <button class="btn btn-primary" onclick="saveBook()">保存</button>
+          <button
+            class="btn btn-warning"
+            onclick="cancelEdit()"
+            id="cancel-btn"
+            style="display: none"
+          >
+            キャンセル
+          </button>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>タイトル</th>
+            <th>著者</th>
+            <th>出版社</th>
+            <th>出版日</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="book-list"></tbody>
+      </table>
+    </div>
+
+    <script>
+      const API_BASE = "/books";
+
+      async function loadBooks() {
+        const res = await fetch(API_BASE);
+        const books = await res.json();
+        const tbody = document.getElementById("book-list");
+        tbody.innerHTML = "";
+
+        books.forEach((book) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${book.id}</td>
+            <td>${escapeHtml(book.title)}</td>
+            <td>${escapeHtml(book.author)}</td>
+            <td>${escapeHtml(book.publisher || "")}</td>
+            <td>${escapeHtml(book.publishedDate || "")}</td>
+            <td class="actions">
+              <button class="btn btn-primary" onclick="editBook(${book.id})">編集</button>
+              <button class="btn btn-danger" onclick="deleteBook(${book.id})">削除</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function saveBook() {
+        const editId = document.getElementById("edit-id").value;
+        const data = {
+          title: document.getElementById("title").value,
+          author: document.getElementById("author").value,
+          publisher: document.getElementById("publisher").value || null,
+          publishedDate: document.getElementById("publishedDate").value || null,
+          isbn: document.getElementById("isbn").value || null,
+        };
+
+        let res;
+        if (editId) {
+          res = await fetch(`${API_BASE}/${editId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+        } else {
+          res = await fetch(API_BASE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+        }
+
+        if (res.ok) {
+          showMessage(editId ? "更新しました" : "登録しました", "success");
+          clearForm();
+          await loadBooks();
+        } else {
+          const err = await res.json();
+          const details = err.details
+            ? err.details.map((detail) => detail.message).join(", ")
+            : JSON.stringify(err);
+          showMessage(`エラー: ${details}`, "error");
+        }
+      }
+
+      async function editBook(id) {
+        const res = await fetch(`${API_BASE}/${id}`);
+        const book = await res.json();
+
+        document.getElementById("edit-id").value = book.id;
+        document.getElementById("title").value = book.title;
+        document.getElementById("author").value = book.author;
+        document.getElementById("publisher").value = book.publisher || "";
+        document.getElementById("publishedDate").value = book.publishedDate || "";
+        document.getElementById("isbn").value = book.isbn || "";
+
+        document.getElementById("form-title").textContent = "書籍を編集する";
+        document.getElementById("cancel-btn").style.display = "inline-block";
+      }
+
+      async function deleteBook(id) {
+        if (!confirm("この書籍を削除しますか？")) {
+          return;
+        }
+
+        const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+
+        if (res.ok) {
+          showMessage("削除しました", "success");
+          await loadBooks();
+        } else {
+          showMessage("削除に失敗しました", "error");
+        }
+      }
+
+      function clearForm() {
+        document.getElementById("edit-id").value = "";
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("publisher").value = "";
+        document.getElementById("publishedDate").value = "";
+        document.getElementById("isbn").value = "";
+        document.getElementById("form-title").textContent = "書籍を登録する";
+        document.getElementById("cancel-btn").style.display = "none";
+      }
+
+      function cancelEdit() {
+        clearForm();
+      }
+
+      function showMessage(text, type) {
+        const el = document.getElementById("message");
+        el.textContent = text;
+        el.className = `message ${type}`;
+        el.style.display = "block";
+        setTimeout(() => {
+          el.style.display = "none";
+        }, 3000);
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      loadBooks();
+    </script>
+  </body>
+</html>
