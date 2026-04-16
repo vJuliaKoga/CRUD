@@ -8,23 +8,24 @@
 
 ## 所要時間の目安
 
-| 作業 | 時間 |
-|------|------|
-| Prismaセットアップ | 15分 |
+| 作業                           | 時間 |
+| ------------------------------ | ---- |
+| Prismaセットアップ             | 15分 |
 | スキーマ定義・マイグレーション | 20分 |
-| Prisma Client生成・動作確認 | 25分 |
+| Prisma Client生成・動作確認    | 25分 |
 
 ---
 
 ## 1. Prismaのインストール
 
 ```powershell
-npm install @prisma/client
-npm install -D prisma
+npm install @prisma/client@6.19.3
+npm install -D prisma@6.19.3
 ```
 
 - `@prisma/client`: アプリケーションコードからデータベースを操作するためのクライアントライブラリ。
 - `prisma`: スキーマ定義、マイグレーション、コード生成などの開発ツール。
+- 本資料では Prisma 6.19 系を使用する。Prisma 7 系では設定方法が変わるため、研修ではバージョンを固定して進める。
 
 ---
 
@@ -41,7 +42,8 @@ npx prisma init --datasource-provider sqlite
 
 ### Prismaとは
 
-Prismaは、TypeScript/JavaScript向けのモダンなORM（Object-Relational Mapping）である。従来のORMと異なり、スキーマファイル（`schema.prisma`）でデータモデルを定義すると、型安全なクライアントコードが自動生成される点が特徴。SQLAlchemy（Python）やJPA（Java）に相当するが、TypeScriptの型システムとの統合度が非常に高い。
+Prismaは、TypeScript/JavaScript向けのモダンなORM（Object-Relational Mapping）。
+従来のORMと異なり、スキーマファイル（`schema.prisma`）でデータモデルを定義すると、型安全なクライアントコードが自動生成される点が特徴。SQLAlchemy（Python）やJPA（Java）に相当するが、TypeScriptの型システムとの統合度が非常に高い。
 
 ---
 
@@ -182,7 +184,7 @@ import { Book } from "@prisma/client";
 
 `Book` 型にマウスカーソルを合わせると、`schema.prisma` で定義したフィールドが全て型として表示される。これがPrismaの型安全性の核心であり、フィールド名のタイプミスやデータ型の不一致をコンパイル時に検出できる。
 
-確認が終わったらこのimportは削除してよい（Day 3で正式に使用する）。
+確認が終わったらこのimportは削除して良い（Day 3で正式に使用する）。
 
 ---
 

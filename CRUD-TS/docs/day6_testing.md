@@ -66,7 +66,7 @@ export default defineConfig({
 **tsconfig.json** の `compilerOptions` に以下を追加する。
 
 ```json
-"types": ["vitest/globals"]
+"types": ["node", "vitest/globals"]
 ```
 
 修正後の `tsconfig.json` 全体:
@@ -85,7 +85,7 @@ export default defineConfig({
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "declaration": true,
-    "types": ["vitest/globals"]
+    "types": ["node", "vitest/globals"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
