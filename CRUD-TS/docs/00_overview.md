@@ -197,9 +197,9 @@ GET /books/1
 ```json
 {
   "id": 1,
-  "title": "リーダブルコード",
-  "author": "Dustin Boswell",
-  "publisher": "オライリージャパン"
+  "title": "トム・ソーヤーの冒険",
+  "author": "マーク・トウェイン",
+  "publisher": "新潮文庫"
 }
 ```
 

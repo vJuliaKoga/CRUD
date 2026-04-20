@@ -187,18 +187,18 @@ describe("Books API", () => {
     test("書籍を登録できる", async () => {
       const res = await request(app)
         .post("/books")
-        .send({ title: "テスト書籍", author: "テスト著者" });
+        .send({ title: "トム・ソーヤーの冒険", author: "マーク・トウェイン" });
 
       expect(res.status).toBe(201);
-      expect(res.body.title).toBe("テスト書籍");
-      expect(res.body.author).toBe("テスト著者");
+      expect(res.body.title).toBe("トム・ソーヤーの冒険");
+      expect(res.body.author).toBe("マーク・トウェイン");
       expect(res.body.id).toBeDefined();
     });
 
     test("タイトル未指定は422エラー", async () => {
       const res = await request(app)
         .post("/books")
-        .send({ author: "著者のみ" });
+        .send({ author: "マーク・トウェイン" });
 
       expect(res.status).toBe(422);
     });
@@ -206,7 +206,7 @@ describe("Books API", () => {
     test("空のタイトルは422エラー", async () => {
       const res = await request(app)
         .post("/books")
-        .send({ title: "", author: "テスト著者" });
+        .send({ title: "", author: "マーク・トウェイン" });
 
       expect(res.status).toBe(422);
     });
@@ -220,8 +220,12 @@ describe("Books API", () => {
     });
 
     test("登録後の一覧を取得できる", async () => {
-      await request(app).post("/books").send({ title: "本A", author: "著者A" });
-      await request(app).post("/books").send({ title: "本B", author: "著者B" });
+      await request(app)
+        .post("/books")
+        .send({ title: "トム・ソーヤーの冒険", author: "マーク・トウェイン" });
+      await request(app)
+        .post("/books")
+        .send({ title: "ハックルベリー・フィンの冒険", author: "マーク・トウェイン" });
 
       const res = await request(app).get("/books");
       expect(res.status).toBe(200);
@@ -233,11 +237,11 @@ describe("Books API", () => {
     test("個別の書籍を取得できる", async () => {
       const created = await request(app)
         .post("/books")
-        .send({ title: "個別取得テスト", author: "著者" });
+        .send({ title: "トム・ソーヤーの冒険", author: "マーク・トウェイン" });
 
       const res = await request(app).get(`/books/${created.body.id}`);
       expect(res.status).toBe(200);
-      expect(res.body.title).toBe("個別取得テスト");
+      expect(res.body.title).toBe("トム・ソーヤーの冒険");
     });
 
     test("存在しないIDは404を返す", async () => {
@@ -250,15 +254,15 @@ describe("Books API", () => {
     test("書籍を部分更新できる", async () => {
       const created = await request(app)
         .post("/books")
-        .send({ title: "更新前", author: "著者" });
+        .send({ title: "トム・ソーヤーの冒険", author: "マーク・トウェイン" });
 
       const res = await request(app)
         .put(`/books/${created.body.id}`)
-        .send({ title: "更新後" });
+        .send({ title: "トム・ソーヤーの冒険 改訂版" });
 
       expect(res.status).toBe(200);
-      expect(res.body.title).toBe("更新後");
-      expect(res.body.author).toBe("著者");
+      expect(res.body.title).toBe("トム・ソーヤーの冒険 改訂版");
+      expect(res.body.author).toBe("マーク・トウェイン");
     });
 
     test("存在しないIDは404を返す", async () => {
@@ -274,7 +278,7 @@ describe("Books API", () => {
     test("書籍を削除できる", async () => {
       const created = await request(app)
         .post("/books")
-        .send({ title: "削除対象", author: "著者" });
+        .send({ title: "ハックルベリー・フィンの冒険", author: "マーク・トウェイン" });
 
       const deleteRes = await request(app).delete(`/books/${created.body.id}`);
       expect(deleteRes.status).toBe(204);
@@ -300,6 +304,7 @@ describe("Books API", () => {
 - `expect(値).toBeDefined()`: 値が `undefined` でないことを検証する。
 - `expect(配列).toHaveLength(数)`: 配列の要素数を検証する。
 - `expect(値).toEqual(期待値)`: オブジェクトや配列の深い比較。
+- Day 3〜Day 4 と同じく `トム・ソーヤーの冒険` と `ハックルベリー・フィンの冒険` を使うことで、手動確認と自動テストの題材をそろえている。
 
 ---
 
