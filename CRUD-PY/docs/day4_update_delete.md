@@ -8,12 +8,12 @@
 
 ## 所要時間の目安
 
-| 作業 | 時間 |
-|------|------|
-| crud.py にupdate/delete追加 | 15分 |
+| 作業                         | 時間 |
+| ---------------------------- | ---- |
+| crud.py にupdate/delete追加  | 15分 |
 | ルーターにエンドポイント追加 | 15分 |
-| バリデーション追加 | 15分 |
-| 動作確認 | 15分 |
+| バリデーション追加           | 15分 |
+| 動作確認                     | 15分 |
 
 ---
 
@@ -47,15 +47,7 @@ def delete_book(db: Session, book_id: int) -> bool:
     db.delete(db_book)
     db.commit()
     return True
-```
 
-なお、ファイル冒頭の import 文を以下のように修正する（`BookUpdate` を追加）。
-
-```python
-from sqlalchemy.orm import Session
-
-from models import Book
-from schemas import BookCreate, BookUpdate
 ```
 
 ### コード解説
@@ -73,14 +65,14 @@ from schemas import BookCreate, BookUpdate
 importの修正（`BookUpdate` と `update_book`, `delete_book` を追加）:
 
 ```python
-from schemas import BookCreate, BookUpdate, BookResponse
+from schemas import BookCreate, BookUpdate, BookResponse as BookResponseSchema
 from crud import get_books, get_book, create_book, update_book, delete_book
 ```
 
 ファイル末尾に以下の2つのエンドポイントを追加する。
 
 ```python
-@router.put("/{book_id}", response_model=BookResponse)
+@router.put("/{book_id}", response_model=BookResponseSchema)
 def modify_book(
     book_id: int, book_data: BookUpdate, db: Session = Depends(get_db)
 ):
@@ -119,8 +111,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class BookCreate(BaseModel):
-    title: str = Field(..., min_length=1, max_length=200, examples=["リーダブルコード"])
-    author: str = Field(..., min_length=1, max_length=100, examples=["Dustin Boswell"])
+    title: str = Field(..., min_length=1, max_length=200, examples=["トム・ソーヤーの冒険"])
+    author: str = Field(..., min_length=1, max_length=100, examples=["マーク・トウェイン"])
     publisher: str | None = Field(None, max_length=100)
     published_date: str | None = Field(None, pattern=r"^\d{4}-\d{2}-\d{2}$")
     isbn: str | None = Field(None, pattern=r"^\d{10}(\d{3})?$")
@@ -154,7 +146,7 @@ class BookResponse(BaseModel):
 - `max_length=200`: 最大文字数。データベースのカラム長と合わせる。
 - `pattern=r"^\d{4}-\d{2}-\d{2}$"`: 正規表現パターン。`published_date` は `YYYY-MM-DD` 形式のみ受け付ける。
 - `pattern=r"^\d{10}(\d{3})?$"`: ISBNは10桁または13桁の数字のみ受け付ける。
-- `examples=["リーダブルコード"]`: Swagger UIで表示されるサンプル値。
+- `examples=["トム・ソーヤーの冒険"]`: Swagger UIで表示されるサンプル値。
 
 ---
 
@@ -170,12 +162,24 @@ class BookResponse(BaseModel):
 curl http://localhost:8000/books/1
 ```
 
-タイトルと出版社を更新する。
+Windows PowerShellの場合:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8000/books/1"
+```
+
+タイトルを更新する。
 
 ```bash
 curl -X PUT http://localhost:8000/books/1 \
   -H "Content-Type: application/json" \
-  -d '{"title": "リーダブルコード 改訂版", "publisher": "オライリー・ジャパン"}'
+  -d '{"title": "トム・ソーヤーの冒険 改訂版"}'
+```
+
+Windows PowerShellの場合:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8000/books/1" -Method PUT -ContentType "application/json" -Body '{"title": "トム・ソーヤーの冒険 改訂版"}'
 ```
 
 更新後の書籍を確認する。
@@ -184,12 +188,24 @@ curl -X PUT http://localhost:8000/books/1 \
 curl http://localhost:8000/books/1
 ```
 
-`title` と `publisher` が更新され、`updated_at` が変わっていることを確認する。`author` など送信しなかったフィールドは元の値が維持されている。
+Windows PowerShellの場合:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8000/books/1"
+```
+
+`title` が更新され、`updated_at` が変わっていることを確認する。`author` や `publisher` など送信しなかったフィールドは元の値が維持されている。
 
 ### 4-2. 書籍の削除（Delete）
 
 ```bash
 curl -X DELETE http://localhost:8000/books/2
+```
+
+Windows PowerShellの場合:
+
+```powershell
+Invoke-WebRequest -Uri "http://localhost:8000/books/2" -Method DELETE | Select-Object -ExpandProperty StatusCode
 ```
 
 レスポンスボディは空で、HTTPステータスコード204が返る。
@@ -198,6 +214,16 @@ curl -X DELETE http://localhost:8000/books/2
 
 ```bash
 curl http://localhost:8000/books/2
+```
+
+Windows PowerShellの場合:
+
+```powershell
+try {
+    Invoke-RestMethod -Uri "http://localhost:8000/books/2"
+} catch {
+    $_.Exception.Response.StatusCode.value__
+}
 ```
 
 404エラーが返ることを確認する。
@@ -212,6 +238,16 @@ curl -X POST http://localhost:8000/books/ \
   -d '{"title": "", "author": "テスト"}'
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+try {
+    Invoke-RestMethod -Uri "http://localhost:8000/books/" -Method POST -ContentType "application/json" -Body '{"title": "", "author": "テスト"}'
+} catch {
+    $_.ErrorDetails.Message
+}
+```
+
 422 Validation Error が返ることを確認する。
 
 不正な日付形式で登録を試みる。
@@ -220,6 +256,16 @@ curl -X POST http://localhost:8000/books/ \
 curl -X POST http://localhost:8000/books/ \
   -H "Content-Type: application/json" \
   -d '{"title": "テスト本", "author": "テスト著者", "published_date": "2024/01/01"}'
+```
+
+Windows PowerShellの場合:
+
+```powershell
+try {
+    Invoke-RestMethod -Uri "http://localhost:8000/books/" -Method POST -ContentType "application/json" -Body '{"title": "テスト本", "author": "テスト著者", "published_date": "2024/01/01"}'
+} catch {
+    $_.ErrorDetails.Message
+}
 ```
 
 `YYYY-MM-DD` 形式ではないため、こちらも422エラーが返る。
@@ -253,4 +299,5 @@ book-manager/
 └── requirements.txt
 ```
 
-これでCRUDのAPI実装は完了である。Day 5ではブラウザから操作できるHTML画面を追加する。
+これでCRUDのAPI実装は完了。
+Day 5ではブラウザから操作できるHTML画面を追加する。

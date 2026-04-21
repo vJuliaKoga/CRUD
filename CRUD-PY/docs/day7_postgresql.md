@@ -21,20 +21,6 @@
 
 ### インストール（未インストールの場合）
 
-Linux (Ubuntu/Debian):
-
-```bash
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-```
-
-macOS (Homebrew):
-
-```bash
-brew install postgresql@16
-brew services start postgresql@16
-```
-
 Windows: PostgreSQLの公式サイト（https://www.postgresql.org/download/windows/）からインストーラをダウンロードしてインストールする。インストール時に設定するパスワードを控えておくこと。
 
 ### データベースとユーザーの作成
@@ -42,10 +28,12 @@ Windows: PostgreSQLの公式サイト（https://www.postgresql.org/download/wind
 PostgreSQLに接続する。
 
 ```bash
-# Linux / macOS
-sudo -u postgres psql
+psql -U postgres
+```
 
-# Windows（インストール時に作成したユーザーで接続）
+Windows PowerShellの場合:
+
+```powershell
 psql -U postgres
 ```
 
@@ -61,6 +49,12 @@ GRANT ALL PRIVILEGES ON DATABASE bookmanager TO bookuser;
 接続確認を行う。
 
 ```bash
+psql -U bookuser -d bookmanager -h localhost
+```
+
+Windows PowerShellの場合:
+
+```powershell
 psql -U bookuser -d bookmanager -h localhost
 ```
 
@@ -86,6 +80,12 @@ python-dotenv==1.0.1
 
 ```bash
 pip install -r requirements.txt
+```
+
+Windows PowerShellの場合:
+
+```powershell
+python -m pip install -r requirements.txt
 ```
 
 - `psycopg2-binary`: PostgreSQL用のPythonドライバ。SQLAlchemyがPostgreSQLに接続する際に内部で使用する。
@@ -218,13 +218,25 @@ class Book(Base):
 uvicorn main:app --reload --port 8000
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+uvicorn main:app --reload --port 8000
+```
+
 エラーなく起動することを確認する。ブラウザで http://localhost:8000/ にアクセスし、書籍の登録・表示・更新・削除が全て動作することを確認する。
 
 ### テストの実行
 
-テストは引き続きSQLiteで実行する（テスト用DBとしてSQLiteは十分）。
+テストは引き続きSQLiteで実行する（テスト用DBとしてSQLiteは十分）。`tests/conftest.py` で `DATABASE_URL` を `sqlite:///./test_books.db` に設定しているため、`.env` にPostgreSQLの接続先を書いていても、テスト時はSQLiteが使われる。
 
 ```bash
+pytest -v
+```
+
+Windows PowerShellの場合:
+
+```powershell
 pytest -v
 ```
 
@@ -233,6 +245,12 @@ pytest -v
 ### PostgreSQLにデータが入っていることの確認
 
 ```bash
+psql -U bookuser -d bookmanager -h localhost
+```
+
+Windows PowerShellの場合:
+
+```powershell
 psql -U bookuser -d bookmanager -h localhost
 ```
 

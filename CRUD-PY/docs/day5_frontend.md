@@ -8,11 +8,11 @@
 
 ## 所要時間の目安
 
-| 作業 | 時間 |
-|------|------|
+| 作業                           | 時間 |
+| ------------------------------ | ---- |
 | テンプレート・静的ファイル設定 | 10分 |
-| HTMLテンプレート作成 | 30分 |
-| 画面用ルーター・動作確認 | 20分 |
+| HTMLテンプレート作成           | 30分 |
+| 画面用ルーター・動作確認       | 20分 |
 
 ---
 
@@ -34,6 +34,12 @@ python-multipart==0.0.12
 pip install -r requirements.txt
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
 - `jinja2`: HTMLテンプレートエンジン。テンプレート内にPythonの変数やループを埋め込める。
 - `python-multipart`: HTMLフォームからのデータ送信を処理するために必要。
 
@@ -45,6 +51,13 @@ pip install -r requirements.txt
 mkdir templates static
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+New-Item -Path "templates" -ItemType Directory
+New-Item -Path "static" -ItemType Directory
+```
+
 ---
 
 ## 3. CSSファイルの作成
@@ -53,182 +66,211 @@ mkdir templates static
 
 ```css
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: "Helvetica Neue", Arial, "Hiragino Sans", sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
+  font-family: "Helvetica Neue", Arial, "Hiragino Sans", sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
 }
 
 .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
 }
 
 .form-section {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .form-section h2 {
-    margin-bottom: 15px;
-    font-size: 1.2em;
+  margin-bottom: 15px;
+  font-size: 1.2em;
 }
 
 .form-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
 .form-row input {
-    flex: 1;
-    min-width: 150px;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
+  flex: 1;
+  min-width: 150px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .btn {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #fff;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
 }
 
-.btn-primary { background-color: #3498db; }
-.btn-primary:hover { background-color: #2980b9; }
-.btn-danger { background-color: #e74c3c; }
-.btn-danger:hover { background-color: #c0392b; }
-.btn-warning { background-color: #f39c12; }
-.btn-warning:hover { background-color: #e67e22; }
+.btn-primary {
+  background-color: #3498db;
+}
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+.btn-danger {
+  background-color: #e74c3c;
+}
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+.btn-warning {
+  background-color: #f39c12;
+}
+.btn-warning:hover {
+  background-color: #e67e22;
+}
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
 }
 
 th {
-    background-color: #2c3e50;
-    color: #fff;
+  background-color: #2c3e50;
+  color: #fff;
 }
 
 tr:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .actions {
-    display: flex;
-    gap: 5px;
+  display: flex;
+  gap: 5px;
 }
 
 .message {
-    padding: 10px 15px;
-    margin-bottom: 15px;
-    border-radius: 4px;
-    display: none;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  display: none;
 }
 
-.message.success { background-color: #d4edda; color: #155724; }
-.message.error { background-color: #f8d7da; color: #721c24; }
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
 ```
 
 ---
 
 ## 4. HTMLテンプレートの作成
 
-**templates/index.html** を新規作成する。このファイルが最も長い。焦らず正確に入力すること。
+**templates/index.html** を新規作成する。焦らず正確に入力すること。
 
 ```html
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>書籍管理システム</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
     <div class="container">
-        <h1>書籍管理システム</h1>
+      <h1>書籍管理システム</h1>
 
-        <div id="message" class="message"></div>
+      <div id="message" class="message"></div>
 
-        <div class="form-section">
-            <h2 id="form-title">書籍を登録する</h2>
-            <input type="hidden" id="edit-id">
-            <div class="form-row">
-                <input type="text" id="title" placeholder="タイトル（必須）">
-                <input type="text" id="author" placeholder="著者（必須）">
-            </div>
-            <div class="form-row">
-                <input type="text" id="publisher" placeholder="出版社">
-                <input type="text" id="published_date" placeholder="出版日（YYYY-MM-DD）">
-                <input type="text" id="isbn" placeholder="ISBN">
-            </div>
-            <div class="form-row">
-                <button class="btn btn-primary" onclick="saveBook()">保存</button>
-                <button class="btn btn-warning" onclick="cancelEdit()" id="cancel-btn" style="display:none;">キャンセル</button>
-            </div>
+      <div class="form-section">
+        <h2 id="form-title">書籍を登録する</h2>
+        <input type="hidden" id="edit-id" />
+        <div class="form-row">
+          <input type="text" id="title" placeholder="タイトル（必須）" />
+          <input type="text" id="author" placeholder="著者（必須）" />
         </div>
+        <div class="form-row">
+          <input type="text" id="publisher" placeholder="出版社" />
+          <input
+            type="text"
+            id="published_date"
+            placeholder="出版日（YYYY-MM-DD）"
+          />
+          <input type="text" id="isbn" placeholder="ISBN" />
+        </div>
+        <div class="form-row">
+          <button class="btn btn-primary" onclick="saveBook()">保存</button>
+          <button
+            class="btn btn-warning"
+            onclick="cancelEdit()"
+            id="cancel-btn"
+            style="display:none;"
+          >
+            キャンセル
+          </button>
+        </div>
+      </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>タイトル</th>
-                    <th>著者</th>
-                    <th>出版社</th>
-                    <th>出版日</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody id="book-list">
-            </tbody>
-        </table>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>タイトル</th>
+            <th>著者</th>
+            <th>出版社</th>
+            <th>出版日</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="book-list"></tbody>
+      </table>
     </div>
 
     <script>
-        const API_BASE = "/books";
+      const API_BASE = "/books";
 
-        async function loadBooks() {
-            const res = await fetch(API_BASE + "/");
-            const books = await res.json();
-            const tbody = document.getElementById("book-list");
-            tbody.innerHTML = "";
+      async function loadBooks() {
+        const res = await fetch(API_BASE + "/");
+        const books = await res.json();
+        const tbody = document.getElementById("book-list");
+        tbody.innerHTML = "";
 
-            books.forEach(book => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
+        books.forEach((book) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
                     <td>${book.id}</td>
                     <td>${escapeHtml(book.title)}</td>
                     <td>${escapeHtml(book.author)}</td>
@@ -239,104 +281,108 @@ tr:hover {
                         <button class="btn btn-danger" onclick="deleteBook(${book.id})">削除</button>
                     </td>
                 `;
-                tbody.appendChild(tr);
-            });
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function saveBook() {
+        const editId = document.getElementById("edit-id").value;
+        const data = {
+          title: document.getElementById("title").value,
+          author: document.getElementById("author").value,
+          publisher: document.getElementById("publisher").value || null,
+          published_date:
+            document.getElementById("published_date").value || null,
+          isbn: document.getElementById("isbn").value || null,
+        };
+
+        let res;
+        if (editId) {
+          res = await fetch(`${API_BASE}/${editId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+        } else {
+          res = await fetch(API_BASE + "/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
         }
 
-        async function saveBook() {
-            const editId = document.getElementById("edit-id").value;
-            const data = {
-                title: document.getElementById("title").value,
-                author: document.getElementById("author").value,
-                publisher: document.getElementById("publisher").value || null,
-                published_date: document.getElementById("published_date").value || null,
-                isbn: document.getElementById("isbn").value || null,
-            };
-
-            let res;
-            if (editId) {
-                res = await fetch(`${API_BASE}/${editId}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data),
-                });
-            } else {
-                res = await fetch(API_BASE + "/", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data),
-                });
-            }
-
-            if (res.ok) {
-                showMessage(editId ? "更新しました" : "登録しました", "success");
-                clearForm();
-                loadBooks();
-            } else {
-                const err = await res.json();
-                showMessage("エラー: " + JSON.stringify(err.detail), "error");
-            }
+        if (res.ok) {
+          showMessage(editId ? "更新しました" : "登録しました", "success");
+          clearForm();
+          loadBooks();
+        } else {
+          const err = await res.json();
+          showMessage("エラー: " + JSON.stringify(err.detail), "error");
         }
+      }
 
-        async function editBook(id) {
-            const res = await fetch(`${API_BASE}/${id}`);
-            const book = await res.json();
+      async function editBook(id) {
+        const res = await fetch(`${API_BASE}/${id}`);
+        const book = await res.json();
 
-            document.getElementById("edit-id").value = book.id;
-            document.getElementById("title").value = book.title;
-            document.getElementById("author").value = book.author;
-            document.getElementById("publisher").value = book.publisher || "";
-            document.getElementById("published_date").value = book.published_date || "";
-            document.getElementById("isbn").value = book.isbn || "";
+        document.getElementById("edit-id").value = book.id;
+        document.getElementById("title").value = book.title;
+        document.getElementById("author").value = book.author;
+        document.getElementById("publisher").value = book.publisher || "";
+        document.getElementById("published_date").value =
+          book.published_date || "";
+        document.getElementById("isbn").value = book.isbn || "";
 
-            document.getElementById("form-title").textContent = "書籍を編集する";
-            document.getElementById("cancel-btn").style.display = "inline-block";
+        document.getElementById("form-title").textContent = "書籍を編集する";
+        document.getElementById("cancel-btn").style.display = "inline-block";
+      }
+
+      async function deleteBook(id) {
+        if (!confirm("この書籍を削除しますか？")) return;
+
+        const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+        if (res.ok) {
+          showMessage("削除しました", "success");
+          loadBooks();
+        } else {
+          showMessage("削除に失敗しました", "error");
         }
+      }
 
-        async function deleteBook(id) {
-            if (!confirm("この書籍を削除しますか？")) return;
+      function clearForm() {
+        document.getElementById("edit-id").value = "";
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("publisher").value = "";
+        document.getElementById("published_date").value = "";
+        document.getElementById("isbn").value = "";
+        document.getElementById("form-title").textContent = "書籍を登録する";
+        document.getElementById("cancel-btn").style.display = "none";
+      }
 
-            const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
-            if (res.ok) {
-                showMessage("削除しました", "success");
-                loadBooks();
-            } else {
-                showMessage("削除に失敗しました", "error");
-            }
-        }
+      function cancelEdit() {
+        clearForm();
+      }
 
-        function clearForm() {
-            document.getElementById("edit-id").value = "";
-            document.getElementById("title").value = "";
-            document.getElementById("author").value = "";
-            document.getElementById("publisher").value = "";
-            document.getElementById("published_date").value = "";
-            document.getElementById("isbn").value = "";
-            document.getElementById("form-title").textContent = "書籍を登録する";
-            document.getElementById("cancel-btn").style.display = "none";
-        }
+      function showMessage(text, type) {
+        const el = document.getElementById("message");
+        el.textContent = text;
+        el.className = "message " + type;
+        el.style.display = "block";
+        setTimeout(() => {
+          el.style.display = "none";
+        }, 3000);
+      }
 
-        function cancelEdit() {
-            clearForm();
-        }
+      function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
 
-        function showMessage(text, type) {
-            const el = document.getElementById("message");
-            el.textContent = text;
-            el.className = "message " + type;
-            el.style.display = "block";
-            setTimeout(() => { el.style.display = "none"; }, 3000);
-        }
-
-        function escapeHtml(str) {
-            const div = document.createElement("div");
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        loadBooks();
+      loadBooks();
     </script>
-</body>
+  </body>
 </html>
 ```
 
@@ -398,6 +444,12 @@ def root(request: Request):
 uvicorn main:app --reload --port 8000
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+uvicorn main:app --reload --port 8000
+```
+
 ブラウザで http://localhost:8000/ にアクセスする。
 
 以下の操作が全てブラウザ上でできることを確認する。
@@ -440,4 +492,5 @@ book-manager/
 └── requirements.txt     ← 更新
 ```
 
-Phase 1（CRUDシステム開発）はこれで完了である。Day 6からはPhase 2に入り、テストとデプロイ準備を行う。
+Phase 1（CRUDシステム開発）はこれで完了。
+Day 6からはPhase 2に入り、テストとデプロイ準備を行う。

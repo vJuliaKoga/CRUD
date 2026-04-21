@@ -8,12 +8,12 @@
 
 ## 所要時間の目安
 
-| 作業 | 時間 |
-|------|------|
-| バリデーション関数の作成 | 15分 |
+| 作業                            | 時間 |
+| ------------------------------- | ---- |
+| バリデーション関数の作成        | 15分 |
 | Update/Deleteエンドポイント追加 | 20分 |
-| エラーハンドリング追加 | 10分 |
-| 動作確認 | 15分 |
+| エラーハンドリング追加          | 10分 |
+| 動作確認                        | 15分 |
 
 ---
 
@@ -36,28 +36,51 @@ export interface ValidationError {
 export function validateBookCreate(body: any): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  if (!body.title || typeof body.title !== "string" || body.title.trim() === "") {
+  if (
+    !body.title ||
+    typeof body.title !== "string" ||
+    body.title.trim() === ""
+  ) {
     errors.push({ field: "title", message: "タイトルは必須です" });
   } else if (body.title.length > 200) {
-    errors.push({ field: "title", message: "タイトルは200文字以内で入力してください" });
+    errors.push({
+      field: "title",
+      message: "タイトルは200文字以内で入力してください",
+    });
   }
 
-  if (!body.author || typeof body.author !== "string" || body.author.trim() === "") {
+  if (
+    !body.author ||
+    typeof body.author !== "string" ||
+    body.author.trim() === ""
+  ) {
     errors.push({ field: "author", message: "著者は必須です" });
   } else if (body.author.length > 100) {
-    errors.push({ field: "author", message: "著者は100文字以内で入力してください" });
+    errors.push({
+      field: "author",
+      message: "著者は100文字以内で入力してください",
+    });
   }
 
   if (body.publisher && body.publisher.length > 100) {
-    errors.push({ field: "publisher", message: "出版社は100文字以内で入力してください" });
+    errors.push({
+      field: "publisher",
+      message: "出版社は100文字以内で入力してください",
+    });
   }
 
   if (body.publishedDate && !/^\d{4}-\d{2}-\d{2}$/.test(body.publishedDate)) {
-    errors.push({ field: "publishedDate", message: "日付はYYYY-MM-DD形式で入力してください" });
+    errors.push({
+      field: "publishedDate",
+      message: "日付はYYYY-MM-DD形式で入力してください",
+    });
   }
 
   if (body.isbn && !/^\d{10}(\d{3})?$/.test(body.isbn)) {
-    errors.push({ field: "isbn", message: "ISBNは10桁または13桁の数字で入力してください" });
+    errors.push({
+      field: "isbn",
+      message: "ISBNは10桁または13桁の数字で入力してください",
+    });
   }
 
   return errors;
@@ -70,7 +93,10 @@ export function validateBookUpdate(body: any): ValidationError[] {
     if (typeof body.title !== "string" || body.title.trim() === "") {
       errors.push({ field: "title", message: "タイトルは空にできません" });
     } else if (body.title.length > 200) {
-      errors.push({ field: "title", message: "タイトルは200文字以内で入力してください" });
+      errors.push({
+        field: "title",
+        message: "タイトルは200文字以内で入力してください",
+      });
     }
   }
 
@@ -78,20 +104,44 @@ export function validateBookUpdate(body: any): ValidationError[] {
     if (typeof body.author !== "string" || body.author.trim() === "") {
       errors.push({ field: "author", message: "著者は空にできません" });
     } else if (body.author.length > 100) {
-      errors.push({ field: "author", message: "著者は100文字以内で入力してください" });
+      errors.push({
+        field: "author",
+        message: "著者は100文字以内で入力してください",
+      });
     }
   }
 
-  if (body.publisher !== undefined && body.publisher && body.publisher.length > 100) {
-    errors.push({ field: "publisher", message: "出版社は100文字以内で入力してください" });
+  if (
+    body.publisher !== undefined &&
+    body.publisher &&
+    body.publisher.length > 100
+  ) {
+    errors.push({
+      field: "publisher",
+      message: "出版社は100文字以内で入力してください",
+    });
   }
 
-  if (body.publishedDate !== undefined && body.publishedDate && !/^\d{4}-\d{2}-\d{2}$/.test(body.publishedDate)) {
-    errors.push({ field: "publishedDate", message: "日付はYYYY-MM-DD形式で入力してください" });
+  if (
+    body.publishedDate !== undefined &&
+    body.publishedDate &&
+    !/^\d{4}-\d{2}-\d{2}$/.test(body.publishedDate)
+  ) {
+    errors.push({
+      field: "publishedDate",
+      message: "日付はYYYY-MM-DD形式で入力してください",
+    });
   }
 
-  if (body.isbn !== undefined && body.isbn && !/^\d{10}(\d{3})?$/.test(body.isbn)) {
-    errors.push({ field: "isbn", message: "ISBNは10桁または13桁の数字で入力してください" });
+  if (
+    body.isbn !== undefined &&
+    body.isbn &&
+    !/^\d{10}(\d{3})?$/.test(body.isbn)
+  ) {
+    errors.push({
+      field: "isbn",
+      message: "ISBNは10桁または13桁の数字で入力してください",
+    });
   }
 
   return errors;
@@ -150,7 +200,9 @@ router.get("/:id", async (req: Request, res: Response) => {
 router.post("/", async (req: Request, res: Response) => {
   const errors = validateBookCreate(req.body);
   if (errors.length > 0) {
-    res.status(422).json({ status: 422, error: "Validation Error", details: errors });
+    res
+      .status(422)
+      .json({ status: 422, error: "Validation Error", details: errors });
     return;
   }
 
@@ -180,7 +232,9 @@ router.put("/:id", async (req: Request, res: Response) => {
 
   const errors = validateBookUpdate(req.body);
   if (errors.length > 0) {
-    res.status(422).json({ status: 422, error: "Validation Error", details: errors });
+    res
+      .status(422)
+      .json({ status: 422, error: "Validation Error", details: errors });
     return;
   }
 
@@ -193,8 +247,10 @@ router.put("/:id", async (req: Request, res: Response) => {
   const updateData: any = {};
   if (req.body.title !== undefined) updateData.title = req.body.title;
   if (req.body.author !== undefined) updateData.author = req.body.author;
-  if (req.body.publisher !== undefined) updateData.publisher = req.body.publisher || null;
-  if (req.body.publishedDate !== undefined) updateData.publishedDate = req.body.publishedDate || null;
+  if (req.body.publisher !== undefined)
+    updateData.publisher = req.body.publisher || null;
+  if (req.body.publishedDate !== undefined)
+    updateData.publishedDate = req.body.publishedDate || null;
   if (req.body.isbn !== undefined) updateData.isbn = req.body.isbn || null;
 
   const book = await prisma.book.update({
@@ -285,7 +341,7 @@ npm run dev
 ### 4-1. 書籍の更新（Update）
 
 ```powershell
-Invoke-RestMethod -Uri "http://localhost:8000/books/1" -Method PUT -ContentType "application/json" -Body '{"title": "リーダブルコード 改訂版"}'
+Invoke-RestMethod -Uri "http://localhost:8000/books/1" -Method PUT -ContentType "application/json" -Body '{"title": "トム・ソーヤーの冒険 改訂版"}'
 ```
 
 `title` のみが更新され、他のフィールドは変わらないことを確認する。

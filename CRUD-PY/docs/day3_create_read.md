@@ -73,14 +73,22 @@ def create_book(db: Session, book_data: BookCreate) -> Book:
 mkdir routers
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+New-Item -Path "routers" -ItemType Directory
+```
+
 **routers/__init__.py** を空ファイルとして作成する。
 
 ```bash
-# Linux / macOS
 touch routers/__init__.py
+```
 
-# Windows (PowerShell)
-New-Item routers/__init__.py -ItemType File
+Windows PowerShellの場合:
+
+```powershell
+New-Item -Path "routers\__init__.py" -ItemType File
 ```
 
 **routers/books.py** を新規作成する。
@@ -90,19 +98,19 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from database import get_db
-from schemas import BookCreate, BookResponse
+from schemas import BookCreate, BookResponse as BookResponseSchema
 from crud import get_books, get_book, create_book
 
 router = APIRouter(prefix="/books", tags=["books"])
 
 
-@router.get("/", response_model=list[BookResponse])
+@router.get("/", response_model=list[BookResponseSchema])
 def list_books(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     books = get_books(db, skip=skip, limit=limit)
     return books
 
 
-@router.get("/{book_id}", response_model=BookResponse)
+@router.get("/{book_id}", response_model=BookResponseSchema)
 def read_book(book_id: int, db: Session = Depends(get_db)):
     book = get_book(db, book_id)
     if book is None:
@@ -110,7 +118,7 @@ def read_book(book_id: int, db: Session = Depends(get_db)):
     return book
 
 
-@router.post("/", response_model=BookResponse, status_code=201)
+@router.post("/", response_model=BookResponseSchema, status_code=201)
 def add_book(book_data: BookCreate, db: Session = Depends(get_db)):
     return create_book(db, book_data)
 ```
@@ -118,7 +126,7 @@ def add_book(book_data: BookCreate, db: Session = Depends(get_db)):
 ### コード解説
 
 - `APIRouter(prefix="/books", tags=["books"])`: このルーターに登録されるエンドポイントは全て `/books` から始まる。`tags` はSwagger UIでのグループ分けに使われる。
-- `response_model=list[BookResponse]`: レスポンスの型を指定する。FastAPIがこの型に合わせてレスポンスを自動変換・検証する。
+- `response_model=list[BookResponseSchema]`: レスポンスの型を指定する。FastAPIがこの型に合わせてレスポンスを自動変換・検証する。
 - `Depends(get_db)`: 依存性注入。FastAPIがリクエストごとに `get_db()` を呼び出し、その戻り値を引数 `db` に渡してくれる。リクエスト処理後に自動で `db.close()` が呼ばれる。
 - `HTTPException(status_code=404, ...)`: 該当する書籍が見つからない場合、HTTP 404エラーを返す。
 - `status_code=201`: 登録成功時のレスポンスコード。201は「Created（リソースが作成された）」を意味する。
@@ -166,6 +174,12 @@ def root():
 サーバーを起動する。
 
 ```bash
+uvicorn main:app --reload --port 8000
+```
+
+Windows PowerShellの場合:
+
+```powershell
 uvicorn main:app --reload --port 8000
 ```
 
@@ -218,6 +232,12 @@ Invoke-WebRequest -Uri "http://localhost:8000/books/" -Method POST -ContentType 
 curl http://localhost:8000/books/
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8000/books/"
+```
+
 登録した2冊が配列で返ってくることを確認する。
 
 ### 4-3. 書籍の個別取得（Read - Detail）
@@ -226,12 +246,28 @@ curl http://localhost:8000/books/
 curl http://localhost:8000/books/1
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8000/books/1"
+```
+
 ID=1の書籍が返ってくることを確認する。
 
 ### 4-4. 存在しないIDの取得
 
 ```bash
 curl http://localhost:8000/books/999
+```
+
+Windows PowerShellの場合:
+
+```powershell
+try {
+    Invoke-RestMethod -Uri "http://localhost:8000/books/999"
+} catch {
+    $_.Exception.Response.StatusCode.value__
+}
 ```
 
 期待されるレスポンス（status_code: 404）:

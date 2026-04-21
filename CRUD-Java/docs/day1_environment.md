@@ -24,7 +24,7 @@
 |------|--------|
 | Project | Maven |
 | Language | Java |
-| Spring Boot | 3.3.x（最新の安定版） |
+| Spring Boot | 4.0.5（最新の安定版） |
 | Group | com.training |
 | Artifact | book-manager |
 | Name | book-manager |

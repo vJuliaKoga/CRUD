@@ -37,6 +37,12 @@ httpx==0.27.0
 pip install -r requirements.txt
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
 - `pytest`: Python標準のテストフレームワーク。テスト関数を自動検出して実行する。
 - `httpx`: FastAPIのTestClientが内部で使うHTTPクライアントライブラリ。
 
@@ -48,14 +54,22 @@ pip install -r requirements.txt
 mkdir tests
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+New-Item -Path "tests" -ItemType Directory
+```
+
 **tests/__init__.py** を空ファイルとして作成する。
 
 ```bash
-# Linux / macOS
 touch tests/__init__.py
+```
 
-# Windows (PowerShell)
-New-Item tests/__init__.py -ItemType File
+Windows PowerShellの場合:
+
+```powershell
+New-Item -Path "tests\__init__.py" -ItemType File
 ```
 
 ---
@@ -67,15 +81,18 @@ New-Item tests/__init__.py -ItemType File
 **tests/conftest.py** を新規作成する。
 
 ```python
+import os
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
 
+TEST_DATABASE_URL = "sqlite:///./test_books.db"
+os.environ["DATABASE_URL"] = TEST_DATABASE_URL
+
 from database import Base, get_db
 from main import app
-
-TEST_DATABASE_URL = "sqlite:///./test_books.db"
 
 test_engine = create_engine(
     TEST_DATABASE_URL,
@@ -120,6 +137,7 @@ def client(setup_database):
 - `@pytest.fixture`: pytestの「フィクスチャ」。テスト関数に必要な前準備や後始末を定義する。テスト関数の引数に名前を書くだけで自動的に注入される。
 - `autouse=True`: 全てのテストで自動的にこのフィクスチャが実行される。
 - `setup_database`: 各テストの前にテーブルを作成し（`create_all`）、テスト後にテーブルを削除する（`drop_all`）。`yield` の前が前準備、後が後始末。
+- `os.environ["DATABASE_URL"] = TEST_DATABASE_URL`: `.env` にPostgreSQLの接続先が書かれていても、テスト実行時はSQLiteのテスト用DBを使うように固定する。
 - `app.dependency_overrides[get_db] = override_get_db`: FastAPIの依存性注入をテスト用に差し替える。本番用の `get_db` の代わりにテスト用の `override_get_db` が呼ばれるようになる。
 
 ---
@@ -310,6 +328,12 @@ def test_create_book_missing_field(client):
 ## 6. テストの実行
 
 ```bash
+pytest -v
+```
+
+Windows PowerShellの場合:
+
+```powershell
 pytest -v
 ```
 

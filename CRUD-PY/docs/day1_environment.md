@@ -8,11 +8,11 @@
 
 ## 所要時間の目安
 
-| 作業 | 時間 |
-|------|------|
+| 作業                       | 時間 |
+| -------------------------- | ---- |
 | 仮想環境・プロジェクト作成 | 15分 |
-| FastAPIの基本コード作成 | 25分 |
-| 動作確認・理解 | 20分 |
+| FastAPIの基本コード作成    | 25分 |
+| 動作確認・理解             | 20分 |
 
 ---
 
@@ -25,23 +25,29 @@ mkdir book-manager
 cd book-manager
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+New-Item -Path "book-manager" -ItemType Directory
+Set-Location book-manager
+```
+
 ## 2. 仮想環境の作成
 
-Pythonの仮想環境（venv）は、プロジェクトごとに独立したパッケージ管理を行う仕組みである。グローバル環境を汚さないために必ず使用する。
+Pythonの仮想環境（venv）は、プロジェクトごとに独立したパッケージ管理を行う仕組み。
+グローバル環境を汚さないために必ず使用する。
 
 ```bash
 python -m venv venv
 ```
 
-仮想環境を有効化する。
+Windows PowerShellの場合:
 
-Linux / macOS:
-
-```bash
-source venv/bin/activate
+```powershell
+python -m venv venv
 ```
 
-Windows (PowerShell):
+Windows PowerShellで仮想環境を有効化する。
 
 ```powershell
 .\venv\Scripts\Activate.ps1
@@ -51,13 +57,16 @@ Windows (PowerShell):
 
 ### 補足: venvとは何か
 
-`venv` はPython標準の仮想環境ツールである。仮想環境内にインストールしたパッケージは、その環境でのみ有効となる。これにより、プロジェクトAではFastAPI 0.100を、プロジェクトBではFastAPI 0.110を、というように異なるバージョンを共存させることができる。
+`venv` はPython標準の仮想環境ツール。
+仮想環境内にインストールしたパッケージは、その環境でのみ有効となる。
+これにより、プロジェクトAではFastAPI 0.100を、プロジェクトBではFastAPI 0.110を、というように異なるバージョンを共存させることができる。
 
 ---
 
 ## 3. 依存パッケージのインストール
 
-まず `requirements.txt` を作成する。テキストエディタで以下の内容のファイルを作成すること。
+まず `requirements.txt` を作成する。
+テキストエディタで以下の内容のファイルを作成すること。
 
 **requirements.txt**
 
@@ -72,10 +81,16 @@ uvicorn==0.30.0
 pip install -r requirements.txt
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
 ### 各パッケージの役割
 
 - `fastapi`: PythonのWebフレームワーク。型ヒント（Type Hints）を活用し、自動でAPIドキュメントを生成してくれる点が特徴。
-- `uvicorn`: ASGI（Asynchronous Server Gateway Interface）サーバー。FastAPIアプリケーションを実行するために必要なWebサーバーである。
+- `uvicorn`: ASGI（Asynchronous Server Gateway Interface）サーバー。FastAPIアプリケーションを実行するために必要なWebサーバー。
 
 ---
 
@@ -112,6 +127,12 @@ def health_check():
 uvicorn main:app --reload --port 8000
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+uvicorn main:app --reload --port 8000
+```
+
 ### コマンドの意味
 
 - `main:app`: `main.py` ファイルの中の `app` という変数（FastAPIインスタンス）を指定
@@ -137,10 +158,16 @@ INFO:     Started reloader process [xxxxx] using StatReload
 curl http://localhost:8000/health
 ```
 
+Windows PowerShellの場合:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8000/health"
+```
+
 期待されるレスポンス:
 
 ```json
-{"status":"ok","message":"Book Manager API is running"}
+{ "status": "ok", "message": "Book Manager API is running" }
 ```
 
 ### ブラウザで確認
@@ -170,6 +197,12 @@ curlで確認する。
 
 ```bash
 curl http://localhost:8000/
+```
+
+Windows PowerShellの場合:
+
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8000/"
 ```
 
 ---

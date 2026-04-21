@@ -58,7 +58,7 @@ psql -U bookuser -d bookmanager -h localhost
 </dependency>
 ```
 
-H2 Databaseの依存関係は削除せず、テスト用として残す。スコープを変更する。
+H2 Databaseの依存関係は削除せず、開発環境とテスト用として残す。`dev` プロファイルでは H2 を使うため、スコープは `runtime` のままにする。
 
 既存の H2 依存関係:
 
@@ -70,17 +70,17 @@ H2 Databaseの依存関係は削除せず、テスト用として残す。スコ
 </dependency>
 ```
 
-これを以下に変更する:
+Day 7 時点でも、依存関係は以下のままでよい:
 
 ```xml
 <dependency>
     <groupId>com.h2database</groupId>
     <artifactId>h2</artifactId>
-    <scope>test</scope>
+    <scope>runtime</scope>
 </dependency>
 ```
 
-`scope` を `runtime` から `test` に変更することで、H2はテスト実行時のみ使用される。
+`dev` プロファイルでは `application-dev.properties` で H2 を使うため、`org.h2.Driver` を実行時に読み込める必要がある。テストでは `src/test/resources/application.properties` の設定により、引き続き H2（インメモリ）が使われる。
 
 ---
 
@@ -194,7 +194,7 @@ EC2にデプロイするためのJARファイルを作成する。
 
 JARファイルの動作確認:
 
-```bash
+```powershell
 java -jar target/book-manager-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 

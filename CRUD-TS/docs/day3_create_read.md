@@ -148,13 +148,13 @@ npm run dev
 PowerShell:
 
 ```powershell
-Invoke-RestMethod -Uri "http://localhost:8000/books" -Method POST -ContentType "application/json" -Body '{"title": "リーダブルコード", "author": "Dustin Boswell", "publisher": "オライリージャパン"}'
+Invoke-RestMethod -Uri "http://localhost:8000/books" -Method POST -ContentType "application/json" -Body '{"title": "トム・ソーヤーの冒険", "author": "マーク・トウェイン", "publisher": "新潮文庫"}'
 ```
 
 curl が使える場合:
 
 ```powershell
-curl -X POST http://localhost:8000/books -H "Content-Type: application/json" -d "{\"title\": \"リーダブルコード\", \"author\": \"Dustin Boswell\", \"publisher\": \"オライリージャパン\"}"
+curl -X POST http://localhost:8000/books -H "Content-Type: application/json" -d "{\"title\": \"トム・ソーヤーの冒険\", \"author\": \"マーク・トウェイン\", \"publisher\": \"新潮文庫\"}"
 ```
 
 期待されるレスポンス（status_code: 201）:
@@ -162,9 +162,9 @@ curl -X POST http://localhost:8000/books -H "Content-Type: application/json" -d 
 ```json
 {
   "id": 1,
-  "title": "リーダブルコード",
-  "author": "Dustin Boswell",
-  "publisher": "オライリージャパン",
+  "title": "トム・ソーヤーの冒険",
+  "author": "マーク・トウェイン",
+  "publisher": "新潮文庫",
   "publishedDate": null,
   "isbn": null,
   "createdAt": "2025-04-01T10:00:00.000Z",
@@ -175,7 +175,7 @@ curl -X POST http://localhost:8000/books -H "Content-Type: application/json" -d 
 もう1冊登録する。
 
 ```powershell
-Invoke-RestMethod -Uri "http://localhost:8000/books" -Method POST -ContentType "application/json" -Body '{"title": "プログラミング作法", "author": "Brian Kernighan", "publisher": "ASCII", "isbn": "9784756136497"}'
+Invoke-RestMethod -Uri "http://localhost:8000/books" -Method POST -ContentType "application/json" -Body '{"title": "ハックルベリー・フィンの冒険", "author": "マーク・トウェイン", "publisher": "岩波文庫", "isbn": "9784003234020"}'
 ```
 
 ### 4-2. 書籍一覧の取得（Read - List）

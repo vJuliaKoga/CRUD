@@ -8,11 +8,11 @@
 
 ## 所要時間の目安
 
-| 作業 | 時間 |
-|------|------|
+| 作業                   | 時間 |
+| ---------------------- | ---- |
 | エンティティクラス作成 | 20分 |
-| リポジトリ・DTO作成 | 25分 |
-| 動作確認 | 15分 |
+| リポジトリ・DTO作成    | 25分 |
+| 動作確認               | 15分 |
 
 ---
 
@@ -40,7 +40,8 @@ New-Item -ItemType Directory -Force -Path "src/main/java/com/training/bookmanage
 
 ## 2. エンティティクラスの作成
 
-JPA（Java Persistence API）のエンティティは、データベーステーブルに対応するJavaクラスである。クラスのフィールドがテーブルのカラムに対応する。
+JPA（Java Persistence API）のエンティティは、データベーステーブルに対応するJavaクラス。
+クラスのフィールドがテーブルのカラムに対応する。
 
 **src/main/java/com/training/bookmanager/model/Book.java** を新規作成する。
 
@@ -132,13 +133,14 @@ public class Book {
 - `@Column(nullable = false, length = 200)`: カラムの制約。`nullable = false` はNOT NULL制約、`length` は最大文字数。
 - `@PrePersist`: エンティティが新規保存される直前に呼ばれるコールバック。`created_at` と `updated_at` を自動設定する。
 - `@PreUpdate`: エンティティが更新される直前に呼ばれるコールバック。
-- Getter/Setter: Javaではフィールドを `private` にし、アクセサメソッドを通じて値を読み書きするのが慣例である（カプセル化）。
+- Getter/Setter: Javaではフィールドを `private` にし、アクセサメソッドを通じて値を読み書きするのが慣例（カプセル化）。
 
 ---
 
 ## 3. リポジトリインターフェースの作成
 
-Spring Data JPAの「リポジトリ」は、データベース操作のためのインターフェースである。インターフェースを定義するだけで、SpringがCRUD操作の実装を自動的に提供する。
+Spring Data JPAの「リポジトリ」は、データベース操作のためのインターフェース。
+インターフェースを定義するだけで、SpringがCRUD操作の実装を自動的に提供する。
 
 **src/main/java/com/training/bookmanager/repository/BookRepository.java** を新規作成する。
 
@@ -165,13 +167,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
   - `existsById(Long id)`: 存在確認
 - `@Repository`: このインターフェースがデータアクセス層であることをSpringに伝える。
 
-Pythonの `crud.py` では各操作を関数として手動で実装したが、Spring Data JPAではインターフェースの定義だけで基本的なCRUD操作が使える。これがSpring Data JPAの大きな特徴である。
+Pythonの `crud.py` では各操作を関数として手動で実装したが、Spring Data JPAではインターフェースの定義だけで基本的なCRUD操作が使える。これがSpring Data JPAの大きな特徴。
 
 ---
 
 ## 4. DTOの作成
 
-DTO（Data Transfer Object）は、APIのリクエストとレスポンスの形式を定義するクラスである。Pythonの `schemas.py`（Pydanticモデル）に相当する。
+DTO（Data Transfer Object）は、APIのリクエストとレスポンスの形式を定義するクラス。
+Pythonの `schemas.py`（Pydanticモデル）に相当する。
 
 **src/main/java/com/training/bookmanager/dto/BookRequest.java** を新規作成する。
 

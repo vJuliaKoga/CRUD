@@ -2,7 +2,8 @@
 
 ## 研修概要
 
-本研修では「書籍管理システム」を題材に、Webアプリケーション開発の基礎からAWSデプロイまでを8日間（1日1時間）で体験する。研修者は Python/FastAPI 版または Java/Spring Boot 版のいずれかを選択して取り組む。
+本研修では「書籍管理システム」を題材に、Webアプリケーション開発の基礎からAWSデプロイまでを8日間（1日1時間）で体験する。
+研修者は Python/FastAPI 版または Java/Spring Boot 版のいずれかを選択して取り組むこと。
 
 ---
 
@@ -32,42 +33,42 @@
 
 ## フェーズ構成
 
-| フェーズ | 期間 | 内容 | ゴール |
-|---------|------|------|--------|
-| Phase 1 | Day 1 - Day 5 | CRUDシステム開発 | 書籍の登録・一覧・更新・削除がローカルで動作する |
-| Phase 2 | Day 6 - Day 7 | テスト・DB切替 | 自動テストが通る / PostgreSQLで動作する |
-| Phase 3 | Day 8 | AWSデプロイ | EC2上でアプリケーションが公開される |
+| フェーズ | 期間          | 内容             | ゴール                                           |
+| -------- | ------------- | ---------------- | ------------------------------------------------ |
+| Phase 1  | Day 1 - Day 5 | CRUDシステム開発 | 書籍の登録・一覧・更新・削除がローカルで動作する |
+| Phase 2  | Day 6 - Day 7 | テスト・DB切替   | 自動テストが通る / PostgreSQLで動作する          |
+| Phase 3  | Day 8         | AWSデプロイ      | EC2上でアプリケーションが公開される              |
 
 ---
 
 ## 日程別カリキュラム
 
-| Day | テーマ | 主な成果物 |
-|-----|--------|-----------|
-| Day 1 | 環境構築・Hello World API | プロジェクト雛形 + `/health` エンドポイント |
-| Day 2 | データベース設計・モデル作成 | booksテーブル + ORMモデル定義 |
-| Day 3 | Create / Read API実装 | `POST /books`, `GET /books`, `GET /books/{id}` |
-| Day 4 | Update / Delete API実装 | `PUT /books/{id}`, `DELETE /books/{id}` + バリデーション |
-| Day 5 | 簡易HTML画面作成 | ブラウザから操作できるCRUD画面 |
-| Day 6 | テスト実装 | 単体テスト + API結合テスト |
-| Day 7 | PostgreSQL切替・本番準備 | PostgreSQL接続 + 環境変数管理 |
-| Day 8 | AWS EC2デプロイ | EC2上での公開・動作確認 |
+| Day   | テーマ                       | 主な成果物                                               |
+| ----- | ---------------------------- | -------------------------------------------------------- |
+| Day 1 | 環境構築・Hello World API    | プロジェクト雛形 + `/health` エンドポイント              |
+| Day 2 | データベース設計・モデル作成 | booksテーブル + ORMモデル定義                            |
+| Day 3 | Create / Read API実装        | `POST /books`, `GET /books`, `GET /books/{id}`           |
+| Day 4 | Update / Delete API実装      | `PUT /books/{id}`, `DELETE /books/{id}` + バリデーション |
+| Day 5 | 簡易HTML画面作成             | ブラウザから操作できるCRUD画面                           |
+| Day 6 | テスト実装                   | 単体テスト + API結合テスト                               |
+| Day 7 | PostgreSQL切替・本番準備     | PostgreSQL接続 + 環境変数管理                            |
+| Day 8 | AWS EC2デプロイ              | EC2上での公開・動作確認                                  |
 
 ---
 
 ## 技術スタック比較
 
-| 項目 | Python版 | Java版 |
-|------|---------|--------|
-| 言語バージョン | Python 3.11+ | Java 17+ |
-| Webフレームワーク | FastAPI | Spring Boot 3.x |
-| ORM | SQLAlchemy | Spring Data JPA (Hibernate) |
-| テンプレートエンジン | Jinja2 | Thymeleaf |
-| テストフレームワーク | pytest | JUnit 5 |
-| DBドライバ (SQLite) | sqlite3 (標準) | H2 Database |
-| DBドライバ (PostgreSQL) | psycopg2 | PostgreSQL JDBC |
-| ビルドツール | pip + venv | Maven |
-| 開発サーバー | uvicorn | 組込みTomcat |
+| 項目                    | Python版       | Java版                      |
+| ----------------------- | -------------- | --------------------------- |
+| 言語バージョン          | Python 3.11+   | Java 17+                    |
+| Webフレームワーク       | FastAPI        | Spring Boot 3.x             |
+| ORM                     | SQLAlchemy     | Spring Data JPA (Hibernate) |
+| テンプレートエンジン    | Jinja2         | Thymeleaf                   |
+| テストフレームワーク    | pytest         | JUnit 5                     |
+| DBドライバ (SQLite)     | sqlite3 (標準) | H2 Database                 |
+| DBドライバ (PostgreSQL) | psycopg2       | PostgreSQL JDBC             |
+| ビルドツール            | pip + venv     | Maven                       |
+| 開発サーバー            | uvicorn        | 組込みTomcat                |
 
 ※ Java版はローカル開発時にH2 Database（SQLite相当の組込みDB）を使用し、Day 7でPostgreSQLに切り替える。
 
@@ -77,28 +78,28 @@
 
 ### API一覧（両言語共通）
 
-| メソッド | パス | 機能 |
-|---------|------|------|
-| GET | `/health` | ヘルスチェック |
-| GET | `/books` | 書籍一覧取得 |
-| GET | `/books/{id}` | 書籍個別取得 |
-| POST | `/books` | 書籍登録 |
-| PUT | `/books/{id}` | 書籍更新 |
-| DELETE | `/books/{id}` | 書籍削除 |
-| GET | `/` | HTML画面（トップページ） |
+| メソッド | パス          | 機能                     |
+| -------- | ------------- | ------------------------ |
+| GET      | `/health`     | ヘルスチェック           |
+| GET      | `/books`      | 書籍一覧取得             |
+| GET      | `/books/{id}` | 書籍個別取得             |
+| POST     | `/books`      | 書籍登録                 |
+| PUT      | `/books/{id}` | 書籍更新                 |
+| DELETE   | `/books/{id}` | 書籍削除                 |
+| GET      | `/`           | HTML画面（トップページ） |
 
 ### 書籍データ構造
 
-| フィールド | 型 | 説明 |
-|-----------|-----|------|
-| id | 整数 (自動採番) | 主キー |
-| title | 文字列 (必須) | 書籍タイトル |
-| author | 文字列 (必須) | 著者名 |
-| publisher | 文字列 (任意) | 出版社 |
-| published_date | 日付 (任意) | 出版日 |
-| isbn | 文字列 (任意) | ISBN番号 |
-| created_at | 日時 (自動) | 登録日時 |
-| updated_at | 日時 (自動) | 更新日時 |
+| フィールド     | 型              | 説明         |
+| -------------- | --------------- | ------------ |
+| id             | 整数 (自動採番) | 主キー       |
+| title          | 文字列 (必須)   | 書籍タイトル |
+| author         | 文字列 (必須)   | 著者名       |
+| publisher      | 文字列 (任意)   | 出版社       |
+| published_date | 日付 (任意)     | 出版日       |
+| isbn           | 文字列 (任意)   | ISBN番号     |
+| created_at     | 日時 (自動)     | 登録日時     |
+| updated_at     | 日時 (自動)     | 更新日時     |
 
 ---
 
@@ -190,20 +191,22 @@ book-manager/
 
 ## CRUDとは何か
 
-CRUDは、データ操作の4つの基本機能の頭文字をとったものである。
+CRUDは、データ操作の4つの基本機能の頭文字をとったもの。
 
-| 操作 | 意味 | HTTPメソッド | SQL文 |
-|------|------|-------------|-------|
-| **C**reate | 作成 | POST | INSERT |
-| **R**ead | 読み取り | GET | SELECT |
-| **U**pdate | 更新 | PUT / PATCH | UPDATE |
-| **D**elete | 削除 | DELETE | DELETE |
+| 操作       | 意味     | HTTPメソッド | SQL文  |
+| ---------- | -------- | ------------ | ------ |
+| **C**reate | 作成     | POST         | INSERT |
+| **R**ead   | 読み取り | GET          | SELECT |
+| **U**pdate | 更新     | PUT / PATCH  | UPDATE |
+| **D**elete | 削除     | DELETE       | DELETE |
 
-ほぼ全てのWebアプリケーション（ECサイト、SNS、業務システム等）はこの4操作の組み合わせで成り立っている。本研修で書籍管理システムを通じてCRUDを実装することで、あらゆるWebアプリケーション開発の基礎力を身につける。
+ほぼ全てのWebアプリケーション（ECサイト、SNS、業務システム等）はこの4操作の組み合わせで成り立っている。
+本研修では、書籍管理システムを通じてCRUDを実装することで、あらゆるWebアプリケーション開発の基礎力を身につける事を目的とする。
 
 ### REST APIとは
 
-REST（Representational State Transfer）は、Web APIの設計原則である。以下のルールに従ってAPIを設計する。
+REST（Representational State Transfer）は、Web APIの設計原則。
+以下のルールに従ってAPIを設計する。
 
 - URLで「リソース（データの種類）」を表す: `/books`
 - HTTPメソッドで「操作」を表す: GET, POST, PUT, DELETE
@@ -226,4 +229,4 @@ GET /books/1
 }
 ```
 
-このように、URLとHTTPメソッドの組み合わせだけで、何のデータに何をするかが明確になる設計がRESTである。
+このように、URLとHTTPメソッドの組み合わせだけで、何のデータに何をするかが明確になる設計がREST。
