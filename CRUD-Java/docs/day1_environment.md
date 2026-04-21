@@ -30,7 +30,10 @@
 | Name | book-manager |
 | Package name | com.training.bookmanager |
 | Packaging | Jar |
+| Configuration | Properties |
 | Java | 17 |
+
+`Configuration` は `Properties` を選択する。以降の手順では `application.properties` を編集する前提で進める。
 
 「ADD DEPENDENCIES」をクリックし、以下の依存関係を追加する。
 
